@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────── */
+:root {
+  --radius: 0.5rem;
+
+  /* Light mode base */
+  --background: 0 0% 98%;
+  --foreground: 220 15% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 15% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 15% 10%;
+  --primary: 220 90% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 15% 94%;
+  --secondary-foreground: 220 15% 20%;
+  --muted: 220 15% 94%;
+  --muted-foreground: 220 10% 46%;
+  --accent: 220 90% 95%;
+  --accent-foreground: 220 90% 30%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 220 15% 88%;
+  --input: 220 15% 88%;
+  --ring: 220 90% 50%;
+  --success: 142 70% 40%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 10%;
+
+  /* Chart colors */
+  --chart-1: 220 90% 55%;
+  --chart-2: 160 65% 42%;
+  --chart-3: 30 85% 55%;
+  --chart-4: 280 60% 55%;
+  --chart-5: 340 75% 55%;
+
+  /* Brand ramp (default: cool blue) */
+  --brand-50: 213 100% 97%;
+  --brand-100: 213 100% 92%;
+  --brand-200: 213 100% 83%;
+  --brand-300: 213 90% 70%;
+  --brand-400: 213 85% 58%;
+  --brand-500: 213 85% 48%;
+  --brand-600: 213 85% 40%;
+  --brand-700: 213 80% 32%;
+  --brand-800: 213 75% 24%;
+  --brand-900: 213 70% 18%;
+
+  /* Dynamic theme overrides (set by ThemeContext from DB) */
+  --theme-primary: var(--brand-500);
+  --theme-accent: var(--brand-100);
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing system (8px base) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 2.5rem;
+  --space-6: 3rem;
+
+  /* Scroll snap */
+  --section-height: 100dvh;
+}
+
+.dark {
+  --background: 220 20% 7%;
+  --foreground: 220 10% 95%;
+  --card: 220 20% 9%;
+  --card-foreground: 220 10% 95%;
+  --popover: 220 20% 9%;
+  --popover-foreground: 220 10% 95%;
+  --primary: 213 85% 58%;
+  --primary-foreground: 0 0% 5%;
+  --secondary: 220 20% 14%;
+  --secondary-foreground: 220 10% 80%;
+  --muted: 220 20% 14%;
+  --muted-foreground: 220 10% 55%;
+  --accent: 220 20% 18%;
+  --accent-foreground: 213 85% 70%;
+  --destructive: 0 62% 45%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 220 20% 18%;
+  --input: 220 20% 18%;
+  --ring: 213 85% 58%;
+  --success: 142 65% 45%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 90% 55%;
+  --warning-foreground: 0 0% 5%;
+
+  --chart-1: 213 85% 62%;
+  --chart-2: 160 60% 50%;
+  --chart-3: 30 80% 58%;
+  --chart-4: 280 60% 62%;
+  --chart-5: 340 70% 60%;
+}
+
+/* ── Base layer ─────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ── Scroll-snap ────────────────────────────────────────────── */
+.snap-container {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100dvh;
+}
+
+/* ── Glass morphism ─────────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Shimmer loading ────────────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.15) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Wireframe overlay ──────────────────────────────────────── */
+.wireframe-mode * {
+  outline: 1px dashed rgba(59, 130, 246, 0.4) !important;
+  outline-offset: -1px !important;
+}
+
+.wireframe-mode [data-label]::before {
+  content: attr(data-label);
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: rgb(59, 130, 246);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 1px 4px;
+  border-radius: 2px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ── Terminal cursor ────────────────────────────────────────── */
+.terminal-cursor::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
+  color: hsl(var(--primary));
+}
+
+/* ── Scrollbar styling ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* ── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: hsl(var(--primary) / 0.25);
+  color: hsl(var(--foreground));
+}
+
+/* ── Focus visible ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* ── Prose-like section typography ─────────────────────────── */
+.section-eyebrow {
+  @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground;
+}
+
+.section-title {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight;
+}
+
+.section-subtitle {
+  @apply text-lg text-muted-foreground leading-relaxed;
+}
